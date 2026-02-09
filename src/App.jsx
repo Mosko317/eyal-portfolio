@@ -54,7 +54,6 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Path logic for local vs GitHub Pages
-  // Note: Your file in public is "Eyal Moskovitch CV MotionGraphics.pdf"
   const cvFileName = "Eyal Moskovitch CV MotionGraphics.pdf";
   const isGitHubPages = window.location.hostname.includes('github.io');
   const repoName = 'eyal-portfolio'; 
@@ -62,13 +61,13 @@ export default function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-        setScrolled(window.scrollY > 20);
+        setScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Prevent background scroll when menu or video is open
+  // Lock body scroll when overlays are active
   useEffect(() => {
     if (selectedVideo || mobileMenuOpen) {
         document.body.style.overflow = 'hidden';
@@ -193,10 +192,19 @@ export default function App() {
 
   const handleNavLinkClick = (e, id) => {
     e.preventDefault();
-    setMobileMenuOpen(false); // Close menu immediately
+    setMobileMenuOpen(false);
     const element = document.getElementById(id);
     if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        const offset = 80;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = element.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+        });
     }
   };
 
@@ -225,8 +233,8 @@ export default function App() {
       </style>
 
       {/* Navigation */}
-      <nav className={`fixed w-full z-[100] transition-all duration-300 ${scrolled || mobileMenuOpen ? 'bg-slate-950/95 backdrop-blur-md border-b border-white/5 py-4' : 'bg-transparent py-8'}`}>
-        <div className="container mx-auto px-6 flex justify-between items-center relative z-[110]">
+      <nav className={`fixed w-full z-[100] transition-all duration-300 ${scrolled ? 'bg-slate-950/90 backdrop-blur-md border-b border-white/5 py-4' : 'bg-transparent py-8'}`}>
+        <div className="container mx-auto px-6 flex justify-between items-center">
           <div className="text-xl md:text-2xl font-black tracking-tighter bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">
             EYAL MOSKOVITCH.
           </div>
@@ -242,24 +250,23 @@ export default function App() {
             </a>
           </div>
 
-          {/* Mobile Toggle */}
+          {/* Mobile Toggle Button */}
           <button 
-            className="md:hidden p-2 text-white hover:text-purple-400 transition-colors"
+            className="md:hidden relative z-[120] p-2 text-white"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle Menu"
           >
             {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
 
-        {/* Mobile Menu Overlay - Fixed Z-index and visibility logic */}
-        <div className={`fixed inset-0 bg-slate-950 z-[105] md:hidden flex flex-col items-center justify-center transition-all duration-500 ease-in-out ${mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}>
-          <div className="flex flex-col items-center space-y-8 text-2xl font-bold uppercase tracking-widest pt-20">
+        {/* Full Screen Mobile Menu Overlay */}
+        <div className={`fixed inset-0 bg-slate-950 z-[110] transition-transform duration-500 ease-in-out md:hidden flex flex-col items-center justify-center ${mobileMenuOpen ? 'translate-y-0' : '-translate-y-full'}`}>
+          <div className="flex flex-col items-center space-y-10 text-2xl font-bold uppercase tracking-widest">
             <NavLinks />
             <a 
               href="#contact" 
               onClick={(e) => handleNavLinkClick(e, 'contact')}
-              className="px-10 py-4 rounded-full bg-purple-600 text-white font-black text-lg shadow-lg shadow-purple-500/20"
+              className="px-10 py-4 rounded-full bg-purple-600 text-white font-black text-lg"
             >
               LET'S TALK
             </a>
