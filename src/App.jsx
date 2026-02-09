@@ -137,7 +137,7 @@ export default function App() {
       company: "Self-Employed",
       role: "Motion Designer & Video Editor",
       period: "2012 - 2019",
-      location: "Israel",
+      location: "San Diego, CA, USA",
       bullets: [
         "Delivered end-to-end video solutions for a diverse range of clients and industries.",
         "Specialized in explainer videos, logo animations, and corporate storytelling.",
