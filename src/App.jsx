@@ -53,7 +53,6 @@ export default function App() {
   const [openExperience, setOpenExperience] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Path logic for local vs GitHub Pages
   const cvFileName = "Eyal Moskovitch CV MotionGraphics.pdf";
   const isGitHubPages = window.location.hostname.includes('github.io');
   const repoName = 'eyal-portfolio'; 
@@ -67,7 +66,6 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Lock body scroll when overlays are active
   useEffect(() => {
     if (selectedVideo || mobileMenuOpen) {
         document.body.style.overflow = 'hidden';
@@ -208,11 +206,11 @@ export default function App() {
     }
   };
 
-  const NavLinks = () => (
+  const NavLinks = ({ mobile = false }) => (
     <>
-      <a href="#about" onClick={(e) => handleNavLinkClick(e, 'about')} className="hover:text-purple-400 transition-colors py-4 md:py-0">About</a>
-      <a href="#portfolio" onClick={(e) => handleNavLinkClick(e, 'portfolio')} className="hover:text-purple-400 transition-colors py-4 md:py-0">Portfolio</a>
-      <a href="#experience" onClick={(e) => handleNavLinkClick(e, 'experience')} className="hover:text-purple-400 transition-colors py-4 md:py-0">Experience</a>
+      <a href="#about" onClick={(e) => handleNavLinkClick(e, 'about')} className={`hover:text-purple-400 transition-colors ${mobile ? 'py-4 text-3xl' : 'py-0'}`}>About</a>
+      <a href="#portfolio" onClick={(e) => handleNavLinkClick(e, 'portfolio')} className={`hover:text-purple-400 transition-colors ${mobile ? 'py-4 text-3xl' : 'py-0'}`}>Portfolio</a>
+      <a href="#experience" onClick={(e) => handleNavLinkClick(e, 'experience')} className={`hover:text-purple-400 transition-colors ${mobile ? 'py-4 text-3xl' : 'py-0'}`}>Experience</a>
     </>
   );
 
@@ -259,21 +257,24 @@ export default function App() {
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
-
-        {/* Full Screen Mobile Menu Overlay */}
-        <div className={`fixed inset-0 bg-slate-950 z-[110] transition-all duration-300 md:hidden flex flex-col items-center justify-center ${mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-          <div className={`flex flex-col items-center space-y-8 text-2xl font-bold uppercase tracking-widest transition-transform duration-500 ${mobileMenuOpen ? 'translate-y-0' : 'translate-y-10'}`}>
-            <NavLinks />
-            <a 
-              href="#contact" 
-              onClick={(e) => handleNavLinkClick(e, 'contact')}
-              className="mt-4 px-10 py-4 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-black text-lg shadow-xl shadow-purple-500/20"
-            >
-              LET'S TALK
-            </a>
-          </div>
-        </div>
       </nav>
+
+      {/* Full Screen Mobile Menu Overlay - MOVED OUTSIDE NAV TO FIX Z-INDEX & SCROLLING ISSUES */}
+      <div className={`fixed inset-0 bg-slate-950 z-[110] transition-all duration-300 md:hidden flex flex-col items-center justify-center ${mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+        <div className="absolute top-6 left-6 text-xl font-black tracking-tighter bg-gradient-to-r from-purple-400 to-red-500 bg-clip-text text-transparent">
+          EYAL MOSKOVITCH.
+        </div>
+        <div className={`flex flex-col items-center space-y-4 text-center font-bold uppercase tracking-widest transition-transform duration-500 ${mobileMenuOpen ? 'translate-y-0' : 'translate-y-10'}`}>
+          <NavLinks mobile />
+          <a 
+            href="#contact" 
+            onClick={(e) => handleNavLinkClick(e, 'contact')}
+            className="mt-8 px-10 py-4 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-black text-lg shadow-xl shadow-purple-500/20"
+          >
+            LET'S TALK
+          </a>
+        </div>
+      </div>
 
       {/* Hero Section */}
       <section id="about" className="relative min-h-screen flex items-center pt-24 md:pt-20 overflow-hidden bg-slate-950">
