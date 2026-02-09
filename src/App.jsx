@@ -52,11 +52,10 @@ export default function App() {
   const [openExperience, setOpenExperience] = useState(0);
 
   /**
-   * ROBUST PATH RESOLUTION:
-   * We use a relative path with a leading slash which is the standard 
-   * for accessing the 'public' folder in modern web environments.
+   * UPDATED FILENAME:
+   * Matching your new space-free filename for better compatibility.
    */
-  const cvFileName = "Eyal Moskovitch CV MotionGraphics.pdf";
+  const cvFileName = "EyalMoskovitchCV.pdf";
   const cvPath = `/${cvFileName}`;
 
   useEffect(() => {
