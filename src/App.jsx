@@ -208,7 +208,6 @@ export default function App() {
     }
   };
 
-  // Removed 'Contact' link from here as 'Let's Talk' handles it.
   const NavLinks = () => (
     <>
       <a href="#about" onClick={(e) => handleNavLinkClick(e, 'about')} className="hover:text-purple-400 transition-colors py-4 md:py-0">About</a>
