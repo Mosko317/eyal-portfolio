@@ -249,14 +249,11 @@ export default function App() {
           .animate-marquee {
             animation: marquee 40s linear infinite;
           }
-          /* GLOBAL FIX FOR HEADING CLIPPING */
-          .safe-heading {
+          /* Fix for cropping: ensure negative letter spacing doesn't cut off glyphs */
+          .safe-text-rendering {
+            padding-left: 0.1em;
+            padding-right: 0.1em;
             overflow: visible !important;
-            padding-top: 0.1em;
-            padding-bottom: 0.2em;
-            margin-top: -0.1em;
-            margin-bottom: -0.2em;
-            line-height: 1.1;
           }
         `}
       </style>
@@ -264,7 +261,7 @@ export default function App() {
       {/* Navigation */}
       <nav className={`fixed w-full z-[100] transition-all duration-300 ${scrolled ? 'bg-slate-950/95 backdrop-blur-md border-b border-white/10 py-4' : 'bg-slate-950/50 md:bg-transparent py-5 md:py-8'}`}>
         <div className="container mx-auto px-6 flex justify-between items-center">
-          <div className="text-xl md:text-2xl font-black tracking-normal bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent px-2">
+          <div className="text-xl md:text-2xl font-black tracking-tighter bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent px-2">
             EYAL MOSKOVITCH.
           </div>
           
@@ -292,7 +289,14 @@ export default function App() {
 
       {/* Full Screen Mobile Menu Overlay */}
       <div className={`fixed inset-0 bg-slate-950 z-[110] transition-all duration-300 md:hidden flex flex-col items-center justify-center ${mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-        <div className="absolute top-6 left-6 text-xl font-black tracking-normal bg-gradient-to-r from-purple-400 to-red-500 bg-clip-text text-transparent px-2">
+        <button 
+          onClick={() => setMobileMenuOpen(false)}
+          className="absolute top-6 right-6 p-3 text-white bg-white/5 rounded-full border border-white/10 transition-transform active:scale-90"
+        >
+          <X size={28} />
+        </button>
+
+        <div className="absolute top-6 left-6 text-xl font-black tracking-tighter bg-gradient-to-r from-purple-400 to-red-500 bg-clip-text text-transparent px-2">
           EYAL MOSKOVITCH.
         </div>
         
@@ -324,7 +328,7 @@ export default function App() {
               </RevealOnScroll>
               
               <RevealOnScroll delay={200}>
-                <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-normal text-white uppercase safe-heading">
+                <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[1.15] md:leading-[1.1] tracking-tight text-white uppercase safe-text-rendering">
                   BRINGING <br className="hidden md:block"/>
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">STORIES</span> <br className="hidden md:block"/>
                   TO LIFE THROUGH <br className="hidden md:block"/>
@@ -378,9 +382,7 @@ export default function App() {
         <div className="container mx-auto px-6">
           <RevealOnScroll>
             <div className="text-center mb-16 md:mb-20">
-              <h2 className="text-3xl md:text-6xl font-black mb-8 tracking-normal uppercase text-white leading-tight safe-heading">
-                SELECTED <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">WORKS</span>
-              </h2>
+              <h2 className="text-3xl md:text-6xl font-black mb-8 tracking-tight uppercase text-white leading-[1.3] safe-text-rendering">SELECTED <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">WORKS</span></h2>
               <div className="flex flex-wrap justify-center gap-2 md:gap-3">
                 {categories.map((tab) => (
                   <button
@@ -442,9 +444,7 @@ export default function App() {
       <section className="py-24 bg-slate-950 relative z-10">
         <div className="container mx-auto px-6 max-w-6xl">
           <RevealOnScroll>
-            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-normal text-center text-white mb-20 leading-tight safe-heading">
-               Skills & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Tools</span>
-            </h2>
+            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight text-center text-white mb-20 leading-[1.3] safe-text-rendering">Skills & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Tools</span></h2>
           </RevealOnScroll>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
@@ -455,7 +455,7 @@ export default function App() {
                     <div className="p-3 bg-slate-900 rounded-2xl border border-white/10 group-hover:scale-110 transition-transform">
                       {cat.icon}
                     </div>
-                    <h3 className="text-lg font-bold text-white uppercase tracking-normal leading-tight">{cat.title}</h3>
+                    <h3 className="text-lg font-bold text-white uppercase tracking-tight leading-tight">{cat.title}</h3>
                   </div>
                   
                   <div className="space-y-8">
@@ -485,9 +485,7 @@ export default function App() {
         <div className="container mx-auto px-6 max-w-5xl">
           <RevealOnScroll>
             <div className="mb-16 text-center md:text-left">
-              <h2 className="text-3xl md:text-6xl font-black mb-4 text-white tracking-normal uppercase leading-tight safe-heading">
-                 CAREER <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">JOURNEY</span>
-              </h2>
+              <h2 className="text-3xl md:text-6xl font-black mb-4 text-white tracking-tight uppercase leading-[1.3] safe-text-rendering">CAREER <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">JOURNEY</span></h2>
               <p className="text-slate-400 text-base md:text-lg max-w-xl mx-auto md:mx-0">A professional timeline of my experience in motion graphics and creative production.</p>
             </div>
           </RevealOnScroll>
@@ -506,7 +504,7 @@ export default function App() {
 
                     <div className="flex-1">
                       <div className="flex flex-wrap items-center gap-x-3 md:gap-x-4 mb-1">
-                        <h3 className="text-lg sm:text-xl md:text-3xl font-bold text-white group-hover:text-purple-400 transition-colors uppercase tracking-normal">{exp.role}</h3>
+                        <h3 className="text-lg sm:text-xl md:text-3xl font-bold text-white group-hover:text-purple-400 transition-colors uppercase tracking-tight">{exp.role}</h3>
                         <span className="text-xs sm:text-sm md:text-lg font-black text-purple-400 whitespace-nowrap">
                           {exp.period}
                         </span>
@@ -546,12 +544,12 @@ export default function App() {
         <div className="relative flex overflow-x-hidden py-10">
           <div className="animate-marquee whitespace-nowrap flex gap-12 md:gap-24 items-center">
             {companiesList.map((company, i) => (
-              <div key={`c1-${i}`} className="text-lg md:text-2xl font-black text-white/30 hover:text-purple-500 transition-colors cursor-default uppercase tracking-tight">
+              <div key={`c1-${i}`} className="text-lg md:text-2xl font-black text-white/30 hover:text-purple-500 transition-colors cursor-default uppercase tracking-tighter">
                 {company}
               </div>
             ))}
             {companiesList.map((company, i) => (
-              <div key={`c2-${i}`} className="text-lg md:text-2xl font-black text-white/30 hover:text-purple-500 transition-colors cursor-default uppercase tracking-tight">
+              <div key={`c2-${i}`} className="text-lg md:text-2xl font-black text-white/30 hover:text-purple-500 transition-colors cursor-default uppercase tracking-tighter">
                 {company}
               </div>
             ))}
@@ -564,9 +562,7 @@ export default function App() {
         <div className="container mx-auto px-6 max-w-5xl">
           <RevealOnScroll>
             <div className="bg-white/5 rounded-[2rem] md:rounded-[3rem] p-8 md:p-16 border border-white/5 text-center relative overflow-hidden">
-               <h2 className="text-3xl md:text-6xl font-black mb-6 uppercase tracking-normal text-white leading-tight safe-heading">
-                 READY TO <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">CREATE?</span>
-               </h2>
+               <h2 className="text-3xl md:text-6xl font-black mb-6 uppercase tracking-tight text-white leading-[1.3] safe-text-rendering">READY TO <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">CREATE?</span></h2>
                
                <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 mb-12 text-slate-300">
                   <div className="flex items-center gap-2">
