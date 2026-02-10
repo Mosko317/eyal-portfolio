@@ -561,7 +561,7 @@ export default function App() {
                <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 mb-12 text-slate-300">
                   <div className="flex items-center gap-2">
                     <Phone size={18} className="text-purple-400" />
-                    <span className="font-bold">+972 54-206-6511</span>
+                    <span className="font-bold">+972 52-473-4904</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <MapPin size={18} className="text-purple-400" />
